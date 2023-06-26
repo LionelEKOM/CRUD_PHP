@@ -1,5 +1,6 @@
 <?php
 include "conn_db.php";
+$id = $_GET['id'];
 
 if(isset($_POST['submit'])) {
     $prenom = $_POST['first_name'];
@@ -7,14 +8,13 @@ if(isset($_POST['submit'])) {
     $email = $_POST['user_email'];
     $gender = $_POST['gender'];
 
-    $sql = "INSERT INTO `users`(`id`, `Prenom`, `Nom`, `Email`, `sexe`) 
-    VALUES (NULL, '$prenom', '$nom', '$email', '$gender')";
+    $sql ="UPDATE `users` SET `Prenom`= `$prenom`,`Nom`= `$nom`,
+    `Email`=`$email`,`sexe`=`$gender` WHERE id = $id";
 
     $result = mysqli_query($conn, $sql);
 
     if($result) {
-        header("Location: index.php?msg=Nouvel enregistrement créé avec succès");
-        exit();
+        header("Location: index.php?msg=Donnée modifiée avec succès!!");
     }
     else {
         echo "Failed: " . mysqli_error($conn);
@@ -45,41 +45,48 @@ if(isset($_POST['submit'])) {
 
     <div class="container">
         <div class="text-center mb-4">
-            <h3>Ajouter un nouvel utilisateur</h3>
-            <p>Veuillez renseigner le formulaire ci-après</p>
+            <h3>Mettre à jour les informations d'un utilisateur</h3>
+            <p>Cliquez sur <strong>'Mettre à jour'</strong> après avoir modifié les informations</p>
         </div>
     </div>
-
+        <?php
+        $sql = "SELECT * FROM `users` WHERE id = $id LIMIT 1";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        ?>
     <div class="container d-flex justify-content-center">
-        <form action="" method="post" style="width: 55vw; min-width: 300px;">
+        <form action="index.php" method="post" style="width: 55vw; min-width: 300px;">
             <div class="row mb-3">
                 <div class="col">
                     <label class="form-label">Prénom :</label>
-                    <input class="form-control" type="text" name="first_name" id="" placeholder="Prenom" require>
+                    <input class="form-control" type="text" name="first_name" id="" value="<?= $row ['Prenom'] ?>">
                 </div>
                 <div class="col">
                     <label class="form-label">Nom :</label>
-                    <input class="form-control" type="text" name="last_name" id="" placeholder="Nom" require>
+                    <input class="form-control" type="text" name="last_name" id="" value="<?= $row ['Nom'] ?>">
                 </div>
             </div>
             <div class="col mb-3">
                 <label class="form-label">Email :</label>
-                <input class="form-control" type="email" name="user_email" id="" placeholder="name@gmail.com"require>
+                <input class="form-control" type="email" name="user_email" id="" value="<?= $row ['Email'] ?>">
             </div>
             <div class="form-group mb-3">
                 <label for="">Genre :</label>
 
                 &nbsp;
-                <input type="radio" name="gender" class="form-check-input" id="Feminin" value="Feminin">
+                <input type="radio" name="gender" class="form-check-input" id="Feminin"
+                value="Feminin"<?php echo ($row['sexe'] == 'Feminin')? "checked":";" ?>>
                 <label for="Feminin" class="form-check-label">Féminin</label>
 
                 &nbsp;
-                <input type="radio" name="gender" class="form-check-input" id="Masculin" value="Masculin">
+                <input type="radio" name="gender" class="form-check-input" id="Masculin"
+                value="Masculin"<?php echo ($row['sexe'] == 'Masculin')? "checked":";" ?>>
                 <label for="Masculin" class="form-check-label">Masculin</label>
             </div>
             <div class="col justify-content-center">
-                <button type="submit" class="btn btn-success" name="submit" style="width: 85px;">Save</button>
-                <a href="index.php" class="btn btn-danger">Cancel</a>
+                <button type="submit" class="btn btn-success" style="width: auto;" 
+                name="submit">Mettre à jour</button>
+                <a href="index.php" class="btn btn-danger">Annuler</a>
             </div>
         </form>
     </div>
