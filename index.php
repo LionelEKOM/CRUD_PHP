@@ -39,12 +39,12 @@ require_once "conn_db.php";
         <table class="table table-hover text-center">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col">Action</th>
                     <th scope="col">ID</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Email</th>
                     <th scope="col">Sexe</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>

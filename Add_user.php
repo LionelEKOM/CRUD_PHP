@@ -64,7 +64,7 @@ if(isset($_POST['submit'])) {
             </div>
             <div class="col mb-3">
                 <label class="form-label">Email :</label>
-                <input class="form-control" type="email" name="user_email" id="" placeholder="name@gmail.com"require>
+                <input class="form-control" type="email" name="user_email" id="" placeholder="name@gmail.com" require>
             </div>
             <div class="form-group mb-3">
                 <label for="">Genre :</label>

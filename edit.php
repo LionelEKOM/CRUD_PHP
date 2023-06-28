@@ -1,15 +1,18 @@
 <?php
 include "conn_db.php";
-$id = $_GET['id'];
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+}
 
 if(isset($_POST['submit'])) {
     $prenom = $_POST['first_name'];
     $nom = $_POST['last_name'];
     $email = $_POST['user_email'];
     $gender = $_POST['gender'];
+    $id = $_POST['user_id'];
 
-    $sql ="UPDATE `users` SET `Prenom`= `$prenom`,`Nom`= `$nom`,
-    `Email`=`$email`,`sexe`=`$gender` WHERE id = $id";
+    $sql ="UPDATE  users  SET Prenom ='$prenom', Nom = '$nom',
+     Email = '$email' , sexe = '$gender'  WHERE id = $id";
 
     $result = mysqli_query($conn, $sql);
 
@@ -19,6 +22,8 @@ if(isset($_POST['submit'])) {
     else {
         echo "Failed: " . mysqli_error($conn);
     }
+
+    
 }
 ?>
 
@@ -55,8 +60,9 @@ if(isset($_POST['submit'])) {
         $row = mysqli_fetch_assoc($result);
         ?>
     <div class="container d-flex justify-content-center">
-        <form action="index.php" method="post" style="width: 55vw; min-width: 300px;">
+        <form action="edit.php" method="post" style="width: 55vw; min-width: 300px;">
             <div class="row mb-3">
+                <input class="form-control" type="text" name="user_id" id="" value="<?= $id ?>" hidden>
                 <div class="col">
                     <label class="form-label">Prénom :</label>
                     <input class="form-control" type="text" name="first_name" id="" value="<?= $row ['Prenom'] ?>">
